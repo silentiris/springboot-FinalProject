@@ -1,4 +1,4 @@
-package com.tjut.entity;
+package com.tjut.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -24,6 +24,28 @@ public class Programme {
     private String actors;
     @TableField(value = "actorsNum")
     private int actorsNum;
+    public void resetType(){
+        switch(type){
+            case "1":
+                type = "歌舞";
+                break;
+            case "2":
+                type = "戏曲";
+                break;
+            case "3":
+                type = "小品";
+                break;
+            case "4":
+                type = "相声";
+                break;
+            case "5":
+                type = "武术";
+                break;
+            case "6":
+                type = "其他";
+                break;
+        }
+    }
 
     public void setActorsNum() {
         int cnt = 1;

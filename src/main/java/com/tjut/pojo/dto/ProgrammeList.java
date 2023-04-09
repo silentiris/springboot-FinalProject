@@ -1,6 +1,6 @@
-package com.tjut.controller.Result;
+package com.tjut.pojo.dto;
 
-import com.tjut.entity.Programme;
+import com.tjut.pojo.entity.Programme;
 
 import java.util.ArrayList;
 import java.util.List;
