@@ -1,4 +1,4 @@
-package com.tjut.pojo.bo;
+package com.tjut.pojo.dto.result;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
-public class ProgramResults {
+public class ProgramResult {
     private int id;
     private String typeName;
     private String name;

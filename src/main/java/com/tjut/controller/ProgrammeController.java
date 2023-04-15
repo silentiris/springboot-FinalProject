@@ -1,58 +1,44 @@
 package com.tjut.controller;
 
-import com.tjut.pojo.bo.ProgramResults;
-import com.tjut.pojo.bo.ProgramSearchResults;
-import com.tjut.pojo.dto.Code;
-import com.tjut.pojo.dto.Result;
-import com.tjut.pojo.entity.Programme;
+import com.tjut.pojo.dto.param.AddProgramParam;
+import com.tjut.pojo.dto.param.DeleteProgramParam;
+import com.tjut.pojo.dto.param.ModifyProgramParam;
+import com.tjut.pojo.dto.CommonResult;
+import com.tjut.pojo.dto.result.ProgramResultList;
+import com.tjut.pojo.dto.result.ProgramSearchResultList;
 import com.tjut.service.ProgrammeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @CrossOrigin
 @RestController
 public class ProgrammeController {
-    @Autowired
     private ProgrammeService programmeService;
-
-    @RequestMapping("/get/programList")
-    @ResponseBody
-    public Result queryProgramList(Integer pageNum){
-        List<ProgramResults> programResults = programmeService.getProgramList(pageNum);
-        return new Result(Code.OPERATE_OK,"请求正常").data("programResults",programResults);
-    }
-    @RequestMapping("/get/search")
-    @ResponseBody
-    public Result queryProgramByCondition(Integer type,Integer num,String name){
-        List<ProgramSearchResults> programSearchResult = programmeService.getProgramByCondition(type,num,name);
-        return new Result(Code.OPERATE_OK,"请求正常").data("programSearchResults",programSearchResult);
+    @Autowired
+    public void setProgrammeService(ProgrammeService programmeService){
+        this.programmeService = programmeService;
     }
 
-    @RequestMapping("/add/program")
-    @ResponseBody
-    public Result addProgram(@RequestBody Programme programme){
-        programme.setActorsNum();
-        programme.resetType();
-        programmeService.addProgram(programme);
-        return new Result(Code.OPERATE_OK,"添加成功");
+    @GetMapping("/get/programList")
+    public CommonResult<ProgramResultList> queryProgramList(Integer pageNum){
+        return programmeService.getProgramList(pageNum);
     }
-    @RequestMapping("/delete/program")
-    @ResponseBody
-    public Result deleteProgram(@RequestBody Programme programme){
-        programmeService.deleteProgram( programme.getId());
-        return new Result(Code.OPERATE_OK,"删除成功");
+    @GetMapping("/get/search")
+    public CommonResult<ProgramSearchResultList> queryProgramByCondition(Integer type, Integer num, String name){
+        return programmeService.getProgramByCondition(type,num,name);
+    }
+    @PostMapping("/add/program")
+    public CommonResult<String> addProgram(@RequestBody AddProgramParam addProgramParam){
+        return programmeService.addProgram(addProgramParam);
+    }
+    @DeleteMapping("/delete/program")
+    public CommonResult<String> deleteProgram(@RequestBody DeleteProgramParam deleteProgramParam){
+        return programmeService.deleteProgram(deleteProgramParam);
     }
 
-    @RequestMapping("/update/program")
-    @ResponseBody
-    public Result modifyProgram(@RequestBody Programme programme){
-        System.out.println("Start... modifyProgram");
-        System.out.println("programme :"+programme);
-        programme.resetType();
-        programmeService.updateProgram(programme);
-        return new Result(Code.OPERATE_OK,"更新成功");
+    @PostMapping("/update/program")
+    public CommonResult<String> modifyProgram(@RequestBody ModifyProgramParam modifyProgramParam){
+        return programmeService.updateProgram(modifyProgramParam);
     }
 
 }

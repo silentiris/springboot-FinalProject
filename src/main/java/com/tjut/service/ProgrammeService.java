@@ -1,18 +1,22 @@
 package com.tjut.service;
 
-import com.tjut.pojo.bo.ProgramResults;
-import com.tjut.pojo.bo.ProgramSearchResults;
-import com.tjut.pojo.entity.Programme;
+import com.tjut.pojo.dto.CommonResult;
+import com.tjut.pojo.dto.param.*;
+import com.tjut.pojo.dto.result.ProgramResult;
+import com.tjut.pojo.dto.result.ProgramResultList;
+import com.tjut.pojo.dto.result.ProgramSearchResult;
+import com.tjut.pojo.dto.result.ProgramSearchResultList;
+import com.tjut.pojo.po.Programme;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
 public interface ProgrammeService {
-    public List<ProgramResults> getProgramList(Integer pageNUm);
-    public List<ProgramSearchResults> getProgramByCondition(Integer type, Integer num, String name);
-    public boolean addProgram(Programme programme);
-    public boolean deleteProgram(Integer id);
-    public boolean updateProgram(Programme programme);
+    public CommonResult<ProgramResultList> getProgramList(Integer pageNUm);
+    public CommonResult<ProgramSearchResultList> getProgramByCondition(Integer type, Integer num, String name);
+    public CommonResult<String> addProgram(AddProgramParam addProgramParam);
+    public CommonResult<String> deleteProgram(DeleteProgramParam deleteProgramParam);
+    public CommonResult<String> updateProgram(ModifyProgramParam modifyProgramParam);
 
 
 }
