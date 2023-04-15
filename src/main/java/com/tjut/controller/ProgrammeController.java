@@ -31,7 +31,7 @@ public class ProgrammeController {
     public CommonResult<String> addProgram(@RequestBody AddProgramParam addProgramParam){
         return programmeService.addProgram(addProgramParam);
     }
-    @DeleteMapping("/delete/program")
+    @PostMapping("/delete/program")
     public CommonResult<String> deleteProgram(@RequestBody DeleteProgramParam deleteProgramParam){
         return programmeService.deleteProgram(deleteProgramParam);
     }

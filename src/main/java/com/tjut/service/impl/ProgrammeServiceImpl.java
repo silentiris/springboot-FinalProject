@@ -48,8 +48,10 @@ public class ProgrammeServiceImpl implements ProgrammeService {
     @Override
     public CommonResult<ProgramSearchResultList> getProgramByCondition(Integer type, Integer num, String name) {
         Programme tempProgramme = new Programme();
-        tempProgramme.setType(String.valueOf(type));
-        tempProgramme.resetType();
+        if(type != null){
+            tempProgramme.setType(String.valueOf(type));
+            tempProgramme.resetType();
+        }
         LambdaQueryWrapper<Programme> lqw = new LambdaQueryWrapper<>();
         lqw.eq(null!=name,Programme::getName,name);
         lqw.eq(null!=tempProgramme.getType(),Programme::getType,tempProgramme.getType());
