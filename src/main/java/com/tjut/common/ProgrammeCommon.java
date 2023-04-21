@@ -13,7 +13,7 @@ public class ProgrammeCommon {
         typeMap.put(5,"武术");
         typeMap.put(6,"其他");
     }
-    public static int setActorNum(String actors){
+    public static int myGetActorNum(String actors){
         int cnt = 1;
         for(int i = 0;i<actors.length();i++){
             char c= actors.charAt(i);

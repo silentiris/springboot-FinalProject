@@ -13,7 +13,7 @@ public class ParamConvertUtil {
         programme.setName(addProgramParam.getName());
         programme.setPoint(addProgramParam.getPoint());
         programme.setActors(addProgramParam.getActors());
-        programme.setActorsNum(ProgrammeCommon.setActorNum(programme.getActors()));
+        programme.setActorsNum(ProgrammeCommon.myGetActorNum(programme.getActors()));
         return programme;
     }
     public static Programme ModifyProgramParamUtil(ModifyProgramParam modifyProgramParam){
@@ -22,7 +22,7 @@ public class ParamConvertUtil {
         programme.setName(modifyProgramParam.getName());
         programme.setPoint(modifyProgramParam.getPoint());
         programme.setActors(modifyProgramParam.getActors());
-        programme.setActorsNum(ProgrammeCommon.setActorNum(programme.getActors()));
+        programme.setActorsNum(ProgrammeCommon.myGetActorNum(programme.getActors()));
         return programme;
     }
 }

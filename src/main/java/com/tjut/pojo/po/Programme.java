@@ -28,7 +28,4 @@ public class Programme {
     private String actors;
     @TableField(value = "actorsNum")
     private int actorsNum;
-    public void setActorsNum() {
-        actorsNum = ProgrammeCommon.setActorNum(actors);
-    }
 }
