@@ -4,15 +4,15 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.tjut.common.ProgrammeCommon;
 import com.tjut.dao.ProgrammeDao;
 import com.tjut.pojo.dto.CommonResult;
 import com.tjut.pojo.dto.param.*;
-import com.tjut.pojo.dto.result.ProgramResult;
-import com.tjut.pojo.dto.result.ProgramResultList;
-import com.tjut.pojo.dto.result.ProgramSearchResult;
-import com.tjut.pojo.dto.result.ProgramSearchResultList;
+import com.tjut.pojo.dto.result.*;
 import com.tjut.pojo.po.Programme;
 import com.tjut.service.ProgrammeService;
+import com.tjut.util.ParamConvertUtil;
+import com.tjut.util.ResultConvertUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,13 +33,7 @@ public class ProgrammeServiceImpl implements ProgrammeService {
         List<Programme> programmes=programmeDao.selectPage(page,null).getRecords();
         List<ProgramResult> programResults = new ArrayList<>();
         for(Programme programme:programmes){
-            ProgramResult programResult = new ProgramResult();
-            programResult.setId(programme.getId());
-            programResult.setTypeName(programme.getType());
-            programResult.setName(programme.getName());
-            programResult.setView(programme.getPoint());
-            programResult.setActorList(programme.getActors());
-            programResults.add(programResult);
+            programResults.add(ResultConvertUtil.ProgramResultUtil(programme));
         }
         return CommonResult.success(new ProgramResultList(programResults));
     }
@@ -49,8 +43,7 @@ public class ProgrammeServiceImpl implements ProgrammeService {
     public CommonResult<ProgramSearchResultList> getProgramByCondition(Integer type, Integer num, String name) {
         Programme tempProgramme = new Programme();
         if(type != null){
-            tempProgramme.setType(String.valueOf(type));
-            tempProgramme.resetType();
+            tempProgramme.setType(ProgrammeCommon.typeMap.get(type));
         }
         LambdaQueryWrapper<Programme> lqw = new LambdaQueryWrapper<>();
         lqw.eq(null!=name,Programme::getName,name);
@@ -64,52 +57,31 @@ public class ProgrammeServiceImpl implements ProgrammeService {
         }
         List<ProgramSearchResult> programSearchResults = new ArrayList<>();
         for(Programme programme:programmeDao.selectList(lqw)){
-            ProgramSearchResult programSearchResult = new ProgramSearchResult();
-            programSearchResult.setId(programme.getId());
-            programSearchResult.setTypeName(programme.getType());
-            programSearchResult.setName(programme.getName());
-            programSearchResult.setView(programme.getPoint());
-            programSearchResult.setActorList(programme.getActors());
-            programSearchResult.setNum(programme.getActorsNum());
-            programSearchResults.add(programSearchResult);
+            programSearchResults.add(ResultConvertUtil.programSearchResultUtil(programme));
         }
         return CommonResult.success(new ProgramSearchResultList(programSearchResults));
     }
 
     //新增节目
     @Override
-    public CommonResult<String> addProgram(AddProgramParam addProgramParam) {
-        Programme programme = new Programme();
-        programme.setType(addProgramParam.getType());
-        programme.resetType();
-        programme.setName(addProgramParam.getName());
-        programme.setPoint(addProgramParam.getPoint());
-        programme.setActors(addProgramParam.getActors());
-        programme.setActorsNum();
-        programmeDao.insert(programme);
+    public CommonResult<BlankResult> addProgram(AddProgramParam addProgramParam) {
+        programmeDao.insert(ParamConvertUtil.AddProgramParamUtil(addProgramParam));
         return CommonResult.addSuccess();
     }
 
     //删除节目
     @Override
-    public CommonResult<String> deleteProgram(DeleteProgramParam deleteProgramParam) {
+    public CommonResult<BlankResult> deleteProgram(DeleteProgramParam deleteProgramParam) {
         programmeDao.deleteById(deleteProgramParam.getId());
         return CommonResult.deleteSuccess();
     }
 
     //更新节目
     @Override
-    public CommonResult<String> updateProgram(ModifyProgramParam modifyProgramParam) {
+    public CommonResult<BlankResult> updateProgram(ModifyProgramParam modifyProgramParam) {
         UpdateWrapper<Programme> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("id",modifyProgramParam.getId());
-        Programme programme = new Programme();
-        programme.setType(modifyProgramParam.getType());
-        programme.resetType();
-        programme.setName(modifyProgramParam.getName());
-        programme.setPoint(modifyProgramParam.getPoint());
-        programme.setActors(modifyProgramParam.getActors());
-        programme.setActorsNum();
-        Integer rows = programmeDao.update(programme, updateWrapper);
+        Integer rows = programmeDao.update(ParamConvertUtil.ModifyProgramParamUtil(modifyProgramParam), updateWrapper);
         return CommonResult.updateSuccess();
     }
 }

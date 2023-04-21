@@ -31,4 +31,11 @@ public class CommonResult<T> {
     public static <T> CommonResult<T> updateSuccess(){
         return new CommonResult<>(ResultEnum.UPDATE_SUCCEED.getCode(),ResultEnum.UPDATE_SUCCEED.getMessage(),null);
     }
+    public static <T> CommonResult<T> fail() {
+        return new CommonResult<>(ResultEnum.FAILED.getCode(), ResultEnum.FAILED.getMessage(), null);
+    }
+    public static <T> CommonResult<T> fail(String message) {
+        return new CommonResult<>(ResultEnum.FAILED.getCode(), message, null);
+    }
+
 }
